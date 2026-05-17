@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; }
+  body {
+    @apply bg-ink text-white font-body antialiased;
+    min-height: 100vh;
+  }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { @apply bg-ink; }
+  ::-webkit-scrollbar-thumb { @apply bg-navy rounded-full; }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-crimson hover:bg-crimson-dark text-white font-display font-semibold px-6 py-3 rounded-xl
+           transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-crimson/30
+           active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100;
+  }
+  .btn-secondary {
+    @apply bg-navy hover:bg-navy-light text-white font-display font-semibold px-6 py-3 rounded-xl
+           border border-navy-light transition-all duration-200 hover:scale-105 active:scale-95;
+  }
+  .btn-ghost {
+    @apply text-white/70 hover:text-white hover:bg-white/10 font-body px-4 py-2 rounded-lg
+           transition-all duration-200;
+  }
+  .card {
+    @apply bg-ink-light border border-white/10 rounded-2xl p-6 backdrop-blur-sm;
+  }
+  .glass {
+    @apply bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl;
+  }
+  .input-field {
+    @apply w-full bg-white/5 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/40
+           focus:outline-none focus:border-crimson focus:ring-2 focus:ring-crimson/20
+           transition-all duration-200 font-body;
+  }
+  .slide-thumb {
+    @apply relative cursor-pointer rounded-xl overflow-hidden border-2 transition-all duration-200
+           hover:scale-105 hover:border-crimson;
+  }
+  .slide-thumb.active { @apply border-amber shadow-lg shadow-amber/30 scale-105; }
+  .slide-thumb.done   { @apply border-green-500; }
+  .slide-thumb.locked { @apply border-white/10 opacity-50 cursor-not-allowed hover:scale-100 hover:border-white/10; }
+  .quality-badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold font-display;
+  }
+}
+
+/* Animated gradient hero */
+.hero-gradient {
+  background: linear-gradient(135deg, #0A2463 0%, #1a3a8f 40%, #0A2463 70%, #061840 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 8s ease infinite;
+}
+@keyframes gradientShift {
+  0%,100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+/* Slide preview 16:9 */
+.slide-preview-wrapper {
+  aspect-ratio: 16/9;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
