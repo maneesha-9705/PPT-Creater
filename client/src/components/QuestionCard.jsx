@@ -71,7 +71,10 @@ export default function QuestionCard({ projectId, slideIndex, project }) {
 
     try {
       // 1. Upload to Cloudinary
-      const uploadRes = await fetch('http://localhost:5000/api/upload', {
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const API_BASE = isLocalhost ? 'http://localhost:5000/api' : 'https://ppt-creater-2.onrender.com/api';
+      
+      const uploadRes = await fetch(`${API_BASE}/upload`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${localStorage.getItem('pitchcraft_token')}` },
         body: formData,
@@ -81,7 +84,7 @@ export default function QuestionCard({ projectId, slideIndex, project }) {
       if (!uploadRes.ok) throw new Error(uploadData.message || 'Upload failed');
 
       // 2. Save URL to slide
-      const saveRes = await fetch(`http://localhost:5000/api/projects/${projectId}/slides/${slideIndex}/image`, {
+      const saveRes = await fetch(`${API_BASE}/projects/${projectId}/slides/${slideIndex}/image`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

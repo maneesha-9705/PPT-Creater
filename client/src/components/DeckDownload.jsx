@@ -4,7 +4,8 @@ import toast from 'react-hot-toast';
 import { Download, Loader2, X, Trophy, ExternalLink, CheckCircle2 } from 'lucide-react';
 import { useProject } from '../context/ProjectContext';
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const API_BASE = import.meta.env.VITE_API_URL || (isLocalhost ? 'http://localhost:5000/api' : 'https://ppt-creater-2.onrender.com/api');
 
 export default function DeckDownload({ projectId, project, onClose }) {
   const { generateDeck } = useProject();
