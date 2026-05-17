@@ -12,7 +12,7 @@ const app = express();
 app.use(cors({
   origin: [
     'http://localhost:5173', 
-    'https://ppt-creater.vercel.app',
+    'https://ppt-creater-jy5x.vercel.app',
     process.env.FRONTEND_URL
   ].filter(Boolean),
   credentials: true,
