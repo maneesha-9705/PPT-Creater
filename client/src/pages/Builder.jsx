@@ -175,7 +175,7 @@ export default function Builder() {
       </AnimatePresence>
 
       {/* ── Body ── */}
-      <div className="flex-1 max-w-7xl mx-auto w-full px-4 py-6 flex gap-6">
+      <div className="flex-1 max-w-7xl mx-auto w-full px-4 py-6 flex flex-col lg:flex-row gap-6">
         <SlideSidebar currentSlide={activeSlide} slides={project?.slides} onSelect={setActiveSlide} />
 
         <main className="flex-1 min-w-0">

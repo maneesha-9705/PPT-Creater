@@ -10,7 +10,7 @@ import QualityScore from './QualityScore';
 import SLIDES from '../utils/slideConfig';
 
 export default function QuestionCard({ projectId, slideIndex, project }) {
-  const { saveAnswers, generateSlide } = useProject();
+  const { saveAnswers, generateSlide, fetchProject } = useProject();
   const slideConfig = SLIDES[slideIndex];
   const slideData   = project?.slides?.[slideIndex];
 
@@ -78,6 +78,7 @@ export default function QuestionCard({ projectId, slideIndex, project }) {
         method: 'POST',
         headers: { Authorization: `Bearer ${localStorage.getItem('pitchcraft_token')}` },
         body: formData,
+        credentials: 'include',
       });
       const uploadData = await uploadRes.json();
       
@@ -90,7 +91,8 @@ export default function QuestionCard({ projectId, slideIndex, project }) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('pitchcraft_token')}`
         },
-        body: JSON.stringify({ imageUrl: uploadData.imageUrl })
+        body: JSON.stringify({ imageUrl: uploadData.imageUrl }),
+        credentials: 'include',
       });
       
       if (!saveRes.ok) throw new Error('Failed to save image to slide');
@@ -98,13 +100,14 @@ export default function QuestionCard({ projectId, slideIndex, project }) {
       setUploadedImageUrl(uploadData.imageUrl);
       toast.success('Image added to slide! 🖼️');
       
-      // Update local state by forcing a refresh or just rely on SlidePreview to pick it up?
-      // Since project is passed down, we might need to trigger a project fetch. We can just use the local state for now.
       if (project && project.slides) {
         project.slides[slideIndex].previewImageUrl = uploadData.imageUrl;
       }
+      
+      if (fetchProject) {
+        await fetchProject(projectId);
+      }
     } catch (err) {
-      console.error(err);
       toast.error(err.message || 'Error uploading image');
     } finally {
       setUploadingImage(false);

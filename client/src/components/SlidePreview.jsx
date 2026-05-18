@@ -7,20 +7,20 @@ import { motion } from 'framer-motion';
 import { useMemo } from 'react';
 
 const SPACING = {
-  xs: 4,
-  sm: 8,
-  md: 12,
-  lg: 18,
-  xl: 24,
-  xxl: 30,
+  xs: '0.3125cqi',
+  sm: '0.625cqi',
+  md: '0.9375cqi',
+  lg: '1.40625cqi',
+  xl: '1.875cqi',
+  xxl: '2.34375cqi',
 };
 
 const TYPE = {
-  hero: '2.3rem',
-  title: '1.7rem',
-  subtitle: '0.95rem',
-  body: '0.9rem',
-  caption: '0.72rem',
+  hero: '2.875cqi',
+  title: '2.125cqi',
+  subtitle: '1.1875cqi',
+  body: '1.125cqi',
+  caption: '0.9cqi',
 };
 
 const THEMES = {
@@ -53,15 +53,15 @@ const LAYOUTS = {
 };
 
 const BulletDash = ({ bullets, t }) => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9375cqi' }}>
     {bullets.map((b, i) => (
-      <div key={i} style={{ display: 'flex', gap: 12 }}>
+      <div key={i} style={{ display: 'flex', gap: '0.9375cqi' }}>
         <div
           style={{
-            width: 12,
-            height: 2,
+            width: '0.9375cqi',
+            height: '0.15625cqi',
             background: t.accent,
-            marginTop: 10,
+            marginTop: '0.78125cqi',
           }}
         />
         <span
@@ -79,13 +79,13 @@ const BulletDash = ({ bullets, t }) => (
 );
 
 const BulletNumbered = ({ bullets, t }) => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '1.09375cqi' }}>
     {bullets.map((b, i) => (
-      <div key={i} style={{ display: 'flex', gap: 12 }}>
+      <div key={i} style={{ display: 'flex', gap: '0.9375cqi' }}>
         <div
           style={{
-            width: 24,
-            height: 24,
+            width: '1.875cqi',
+            height: '1.875cqi',
             borderRadius: '50%',
             background: t.grad,
             display: 'flex',
@@ -93,7 +93,7 @@ const BulletNumbered = ({ bullets, t }) => (
             justifyContent: 'center',
             color: '#fff',
             fontWeight: 700,
-            fontSize: 12,
+            fontSize: '0.9375cqi',
             flexShrink: 0,
           }}
         >
@@ -118,7 +118,7 @@ const BulletPill = ({ bullets, t }) => (
   <div
     style={{
       display: 'flex',
-      gap: 12,
+      gap: '0.9375cqi',
       flexWrap: 'wrap',
       justifyContent: 'center',
     }}
@@ -127,12 +127,13 @@ const BulletPill = ({ bullets, t }) => (
       <div
         key={i}
         style={{
-          padding: '8px 18px',
+          padding: '0.625cqi 1.40625cqi',
           borderRadius: 999,
           background: `${t.accent}18`,
           border: `1px solid ${t.border}`,
           color: t.accent,
           fontWeight: 700,
+          fontSize: TYPE.body,
         }}
       >
         {b}
@@ -142,13 +143,14 @@ const BulletPill = ({ bullets, t }) => (
 );
 
 const BulletStat = ({ bullets, t }) => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '1.09375cqi' }}>
     {bullets.map((b, i) => (
       <div key={i}>
         <span
           style={{
             color: t.accent,
             fontWeight: 800,
+            fontSize: TYPE.body,
           }}
         >
           {b}
@@ -165,47 +167,57 @@ const BULLET_TYPES = {
   stat: BulletStat,
 };
 
-const VisualFrame = ({ t }) => (
+const VisualFrame = ({ t, imageUrl }) => (
   <div
     style={{
       width: '100%',
-      height: 320,
-      borderRadius: 20,
+      height: '25cqi',
+      borderRadius: '1.5625cqi',
       border: `1px solid ${t.border}`,
       background: t.surface,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       backdropFilter: 'blur(20px)',
+      overflow: 'hidden',
     }}
   >
-    <motion.div
-      animate={{ rotate: 360 }}
-      transition={{
-        repeat: Infinity,
-        duration: 22,
-        ease: 'linear',
-      }}
-      style={{
-        width: 160,
-        height: 160,
-        borderRadius: '50%',
-        border: `1px dashed ${t.accent}`,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <div
-        style={{
-          width: 80,
-          height: 80,
-          borderRadius: '50%',
-          background: t.grad,
-          boxShadow: `0 0 40px ${t.glow}`,
-        }}
+    {imageUrl ? (
+      <img
+        src={imageUrl}
+        alt="Slide Visual"
+        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        crossOrigin="anonymous"
       />
-    </motion.div>
+    ) : (
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{
+          repeat: Infinity,
+          duration: 22,
+          ease: 'linear',
+        }}
+        style={{
+          width: '12.5cqi',
+          height: '12.5cqi',
+          borderRadius: '50%',
+          border: `1px dashed ${t.accent}`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <div
+          style={{
+            width: '6.25cqi',
+            height: '6.25cqi',
+            borderRadius: '50%',
+            background: t.grad,
+            boxShadow: `0 0 40px ${t.glow}`,
+          }}
+        />
+      </motion.div>
+    )}
   </div>
 );
 
@@ -213,6 +225,7 @@ const SlideBody = ({
   slideNum,
   content,
   t,
+  imageUrl,
 }) => {
   const layout = LAYOUTS[slideNum];
 
@@ -232,7 +245,7 @@ const SlideBody = ({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        gap: 16,
+        gap: '1.25cqi',
       }}
     >
       <h1
@@ -278,7 +291,7 @@ const SlideBody = ({
           textAlign: 'center',
         }}
       >
-        <div style={{ maxWidth: 820 }}>
+        <div style={{ maxWidth: '64.0625cqi' }}>
           {TextSection}
         </div>
       </div>
@@ -290,20 +303,20 @@ const SlideBody = ({
       style={{
         display: 'grid',
         gridTemplateColumns: layout.columns,
-        gap: 24,
+        gap: '1.875cqi',
         alignItems: 'center',
         height: '100%',
       }}
     >
       {layout.visual === 'left' ? (
         <>
-          <VisualFrame t={t} />
+          <VisualFrame t={t} imageUrl={imageUrl} />
           {TextSection}
         </>
       ) : (
         <>
           {TextSection}
-          <VisualFrame t={t} />
+          <VisualFrame t={t} imageUrl={imageUrl} />
         </>
       )}
     </div>
@@ -340,12 +353,13 @@ export default function SlidePreview({
   return (
     <div
       style={{
+        containerType: 'inline-size',
         aspectRatio: '16/9',
         width: '100%',
         background: t.bg,
-        borderRadius: 28,
+        borderRadius: '2.1875cqi',
         overflow: 'hidden',
-        padding: 28,
+        padding: '2.1875cqi',
         boxSizing: 'border-box',
         display: 'grid',
         gridTemplateRows: 'auto 1fr auto',
@@ -360,12 +374,12 @@ export default function SlidePreview({
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginBottom: 18,
+          marginBottom: '1.40625cqi',
         }}
       >
         <div
           style={{
-            padding: '6px 16px',
+            padding: '0.46875cqi 1.25cqi',
             borderRadius: 999,
             background: t.grad,
             color: '#fff',
@@ -391,6 +405,7 @@ export default function SlidePreview({
         slideNum={slideNum}
         content={content}
         t={t}
+        imageUrl={slideData?.previewImageUrl}
       />
 
       <footer
@@ -398,7 +413,7 @@ export default function SlidePreview({
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginTop: 18,
+          marginTop: '1.40625cqi',
         }}
       >
         <div
@@ -413,15 +428,15 @@ export default function SlidePreview({
         <div
           style={{
             display: 'flex',
-            gap: 5,
+            gap: '0.390625cqi',
           }}
         >
           {[...Array(12)].map((_, i) => (
             <div
               key={i}
               style={{
-                width: i + 1 === slideNum ? 18 : 5,
-                height: 5,
+                width: i + 1 === slideNum ? '1.40625cqi' : '0.390625cqi',
+                height: '0.390625cqi',
                 borderRadius: 999,
                 background:
                   i + 1 === slideNum

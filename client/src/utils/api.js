@@ -13,6 +13,7 @@ if (baseURL && !baseURL.endsWith('/api')) {
 
 const api = axios.create({
   baseURL,
+  withCredentials: true,
 });
 
 api.interceptors.request.use((config) => {
