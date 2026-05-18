@@ -17,10 +17,25 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-  if (user && (await user.matchPassword(password))) {
-    res.json({ _id: user._id, name: user.name, email: user.email, collegeName: user.collegeName, teamName: user.teamName, token: generateToken(user._id) });
+  
+  if (!user) {
+    return res.status(404).json({ 
+      message: "You don't have any account. Please create one to sign in.",
+      code: 'ACCOUNT_NOT_FOUND'
+    });
+  }
+
+  if (await user.matchPassword(password)) {
+    res.json({ 
+      _id: user._id, 
+      name: user.name, 
+      email: user.email, 
+      collegeName: user.collegeName, 
+      teamName: user.teamName, 
+      token: generateToken(user._id) 
+    });
   } else {
-    res.status(401).json({ message: 'Invalid email or password' });
+    res.status(401).json({ message: 'Invalid password. Please try again.' });
   }
 };
 

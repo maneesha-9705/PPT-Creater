@@ -1,12 +1,19 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { User, Mail, Lock, Users, Building2, Rocket } from 'lucide-react';
 
 export default function Register() {
-  const [form, setForm] = useState({ name: '', email: '', password: '', teamName: '', collegeName: 'SRKR Engineering College (A)' });
+  const location = useLocation();
+  const [form, setForm] = useState({ 
+    name: '', 
+    email: location.state?.email || '', 
+    password: '', 
+    teamName: '', 
+    collegeName: 'SRKR Engineering College (A)' 
+  });
   const { register, loading } = useAuth();
   const navigate = useNavigate();
 

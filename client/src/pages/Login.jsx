@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
-import { Mail, Lock, Rocket } from 'lucide-react';
+import { Mail, Lock, Rocket, UserPlus, X } from 'lucide-react';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showNoAccountDialog, setShowNoAccountDialog] = useState(false);
   const { login, loading } = useAuth();
   const navigate = useNavigate();
 
@@ -18,7 +19,11 @@ export default function Login() {
       toast.success('Welcome back! 🚀');
       navigate('/dashboard');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Login failed');
+      if (err.response?.status === 404 || err.response?.data?.code === 'ACCOUNT_NOT_FOUND') {
+        setShowNoAccountDialog(true);
+      } else {
+        toast.error(err.response?.data?.message || 'Login failed');
+      }
     }
   };
 
@@ -89,6 +94,59 @@ export default function Login() {
           Biz Vision Demo Day · SRKR Engineering College (A) · Powered by IIC & MoE Innovation Cell
         </p>
       </motion.div>
+
+      {/* No Account Dialog */}
+      <AnimatePresence>
+        {showNoAccountDialog && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowNoAccountDialog(false)}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-sm glass p-6 overflow-hidden"
+            >
+              <button 
+                onClick={() => setShowNoAccountDialog(false)}
+                className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              
+              <div className="flex flex-col items-center text-center">
+                <div className="w-12 h-12 rounded-full bg-amber/10 flex items-center justify-center mb-4">
+                  <UserPlus className="w-6 h-6 text-amber" />
+                </div>
+                <h3 className="text-xl font-display font-bold text-white mb-2">Account Not Found</h3>
+                <p className="text-white/70 font-body text-sm mb-6">
+                  You don't have an account with <strong className="text-white">{email}</strong> yet. Please create one to sign in.
+                </p>
+                <button
+                  onClick={() => {
+                    setShowNoAccountDialog(false);
+                    navigate('/register', { state: { email } });
+                  }}
+                  className="w-full py-3 rounded-xl font-display font-bold text-sm bg-gradient-to-r from-amber to-orange-500 text-white shadow-lg shadow-amber/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                >
+                  Create Account Now
+                </button>
+                <button
+                  onClick={() => setShowNoAccountDialog(false)}
+                  className="w-full mt-3 py-2 text-white/50 hover:text-white text-sm font-body transition-colors"
+                >
+                  Try another email
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
